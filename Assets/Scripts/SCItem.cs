@@ -8,4 +8,6 @@ public class SCItem : ScriptableObject
     public string itemDescription;
     public Sprite itemIcon;
     public GameObject itemPrefab;
+    
+    
 }
