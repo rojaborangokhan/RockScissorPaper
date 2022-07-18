@@ -29,6 +29,7 @@ public class BoardCreation : MonoBehaviour//ScriptableObject
                 if ((i ==0 && j <= boardWidth-1) || (j<=boardWidth-1 && i==boardHeight-1))
                 {
                     Debug.Log(spawnedTile.name);
+                    //denemeler yapıldı
                     // ilk sıraya buradan ulaşıyoruz. Bütün taşlar ilk sıradan çıktıktan sonra bu sıra kullanılamayacak.
                     
                 }
