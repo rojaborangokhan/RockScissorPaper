@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoardCreation : MonoBehaviour
+//[CreateAssetMenu(menuName = "Scriptable object/Board/Layout")]
+public class BoardCreation : MonoBehaviour//ScriptableObject
 {
     [SerializeField] private int _boardWidth, _boardHeight;
     [SerializeField] private GameObject _cube;
