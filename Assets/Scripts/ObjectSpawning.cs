@@ -17,7 +17,7 @@ public class ObjectSpawning : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         
