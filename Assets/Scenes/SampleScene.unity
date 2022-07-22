@@ -814,7 +814,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _clickedObject: {fileID: 0}
-  _boardCreation: {fileID: 251654789}
+  _clickedMaterial: {fileID: 2100000, guid: 0c8616c88157c5e4aa60760213ad9936, type: 2}
+  _cube: {fileID: 6581966283629881590, guid: 3381a2da53a8fb14bbcfa89149d2b842, type: 3}
 --- !u!1 &1603511884
 GameObject:
   m_ObjectHideFlags: 0

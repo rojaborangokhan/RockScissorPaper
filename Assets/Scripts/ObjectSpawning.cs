@@ -9,7 +9,7 @@ public class ObjectSpawning : MonoBehaviour
     [SerializeField] private GameObject _rock;
     [SerializeField] private GameObject _scissor;
 
-    private void Awake()
+    void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -17,9 +17,5 @@ public class ObjectSpawning : MonoBehaviour
         }
     }
 
-    
-    void Update()
-    {
-        
-    }
+
 }
