@@ -11,11 +11,15 @@ public class ObjectSpawning : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            
-        }
+        
     }
+
+    public void ResetButton()
+    {
+        
+    }
+    
+    
 
 
 }

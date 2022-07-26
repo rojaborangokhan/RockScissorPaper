@@ -15,6 +15,7 @@ public class ColliderInputReceiver : MonoBehaviour
     private GameObject _chosenObject;
     private Material _prevMat;
     private Object[] allCubes;
+    private bool _objectSpawned=false;
 
     private void Awake()
     {
@@ -28,12 +29,15 @@ public class ColliderInputReceiver : MonoBehaviour
 
     private void ClickToObject()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (_objectSpawned)
         {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray,out hit))
-            {
+
+            if (Input.GetMouseButtonDown(0)) 
+            { 
+                RaycastHit hit;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray,out hit))
+                {
                 
                     if (hit.transform.gameObject.tag == "Rock")
                     {
@@ -50,7 +54,6 @@ public class ColliderInputReceiver : MonoBehaviour
                         {
                             for (int i = 0; i < listCountRock; i++)
                             {
-                                
                                 SCRock.instance._rockTouchCube.GetComponent<Tile>().nearCubeRock[i].GetComponent<MeshRenderer>().material = _clickedMaterial;
                             }
                         }
@@ -96,15 +99,16 @@ public class ColliderInputReceiver : MonoBehaviour
                             }
                         }
                     }
-                    else if (hit.transform.gameObject.tag != "Scissor" || hit.transform.gameObject.tag != "Paper" || hit.transform.gameObject.tag != "Rock")
+                    else if (hit.transform.gameObject.tag != "Scissor" || hit.transform.gameObject.tag != "Paper" || hit.transform.gameObject.tag != "Rock" || hit.transform == null)
                     {
-                        Debug.Log("BASKAYER");
+                        
                         allCubes = FindObjectsOfType(typeof(Tile));
                         foreach( var a in allCubes) {             
                             a.GetComponent<Tile>().Sample();      
                         }     
                         
-                    }
+                    } 
+                } 
             }
         }
     }
