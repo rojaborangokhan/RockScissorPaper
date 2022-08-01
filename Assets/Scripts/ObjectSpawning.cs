@@ -5,21 +5,5 @@ using UnityEngine;
 
 public class ObjectSpawning : MonoBehaviour
 {
-    [SerializeField] private GameObject _paper;
-    [SerializeField] private GameObject _rock;
-    [SerializeField] private GameObject _scissor;
-
-    void Update()
-    {
-        
-    }
-
-    public void ResetButton()
-    {
-        
-    }
     
-    
-
-
 }

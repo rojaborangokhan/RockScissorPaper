@@ -15,7 +15,7 @@ public class ColliderInputReceiver : MonoBehaviour
     private GameObject _chosenObject;
     private Material _prevMat;
     private Object[] allCubes;
-    private bool _objectSpawned=false;
+    public bool _objectSpawned = false;
 
     private void Awake()
     {
@@ -24,7 +24,11 @@ public class ColliderInputReceiver : MonoBehaviour
 
     void Update()
     {
-        ClickToObject();
+        if (_objectSpawned)
+        {
+            ClickToObject();
+        }
+        
     }
 
     private void ClickToObject()
@@ -34,11 +38,11 @@ public class ColliderInputReceiver : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0)) 
             { 
+                
                 RaycastHit hit;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray,out hit))
                 {
-                
                     if (hit.transform.gameObject.tag == "Rock")
                     {
                         allCubes = FindObjectsOfType(typeof(Tile));
@@ -49,7 +53,6 @@ public class ColliderInputReceiver : MonoBehaviour
                         clickPosition = hit.point;
                         _clickedObject = hit.transform.gameObject;
                         int listCountRock = SCRock.instance._rockTouchCube.GetComponent<Tile>().nearCubeRock.Count;
-                        
                         if (SCRock.instance._rockTouchCube.GetComponent<Tile>().isThereRock)
                         {
                             for (int i = 0; i < listCountRock; i++)
@@ -73,7 +76,6 @@ public class ColliderInputReceiver : MonoBehaviour
                             
                             for (int i = 0; i < listCountPaper; i++)
                             {
-                                
                                 SCPaper.instance._paperTouchCube.GetComponent<Tile>().nearCubePaper[i].GetComponent<Renderer>().material = _clickedMaterial;
                                 
                             }
@@ -94,7 +96,6 @@ public class ColliderInputReceiver : MonoBehaviour
                         {
                             for (int i = 0; i < listCountScissor; i++)
                             {
-                                
                                 SCScrissor.instance._scissorTouchCube.GetComponent<Tile>().nearCubeScissor[i].GetComponent<Renderer>().material = _clickedMaterial;
                             }
                         }

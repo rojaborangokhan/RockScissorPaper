@@ -17,13 +17,19 @@ public class SCPaper : MonoBehaviour
     {
         if (other.CompareTag("Cube"))
         {
+            StartCoroutine(LateBeginning());
             boardCube.Add(other.gameObject);
             _paperTouchCube = other.gameObject;
+            
             for (int i = 0; i < boardCube.Count; i++)
             {
                 boardCube[i].GetComponent<Tile>().isTherePaper = true;
             }
-            
         }
+    }
+    
+    private IEnumerator LateBeginning()
+    {
+        yield return new WaitForSecondsRealtime(5f*Time.deltaTime);
     }
 }

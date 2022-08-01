@@ -16,14 +16,21 @@ public class SCScrissor : MonoBehaviour
     {
         if (other.CompareTag("Cube"))
         {
+            StartCoroutine(LateBeginning());
             boardCube.Add(other.gameObject);
             _scissorTouchCube = other.gameObject;
+            //Debug.Log(_scissorTouchCube);
             for (int i = 0; i < boardCube.Count; i++)
             {
-                //Debug.Log(boardCube[i]);
                 boardCube[i].GetComponent<Tile>().isThereScissor = true;
             }
             
         }
     }
+
+    private IEnumerator LateBeginning()
+    {
+        yield return new WaitForSecondsRealtime(5f*Time.deltaTime);
+    }
+
 }
