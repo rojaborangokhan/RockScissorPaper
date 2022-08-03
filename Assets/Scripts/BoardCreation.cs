@@ -26,6 +26,7 @@ public class BoardCreation : MonoBehaviour
     private bool _isScisLocated = false;
     public GameObject _rockClicked, _paperClicked, _scissorClicked;
     private Object[] allCubes;
+
     
     private void Awake()
     {
@@ -53,10 +54,10 @@ public class BoardCreation : MonoBehaviour
             SpawningPaper();
         }
 
-        if (_isRockLocated && _isPaperLocated && _isScisLocated)
+        if (_isRockLocated && _isPaperLocated && _isScisLocated) 
         {
             ColliderInputReceiver.instance._objectSpawned = true;
-            Tile.instance.IsPieceMoved = true;
+            
         }
         
         
@@ -70,12 +71,11 @@ public class BoardCreation : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
-                if ((hit.transform.tag == "Cube") && (hit.transform.name == "0 0" || hit.transform.name == "1 0" || hit.transform.name == "2 0"))
+                if ((hit.transform.tag == "Cube") && (hit.transform.name == "0 0" || hit.transform.name == "1 0" || hit.transform.name == "2 0")&& !hit.transform.GetComponent<Tile>().isThereRock)
                 {
                     Vector3 _scissorPos = new Vector3(hit.transform.position.x, 0.5f, hit.transform.position.z);
                     _instantiateScissor =  Instantiate(_scissor, _scissorPos, Quaternion.identity);
                     _scissorClicked = hit.transform.gameObject;
-                    hit.transform.GetComponent<Tile>().isThereScissor = true;
                     _destroyScissor.SetActive(false);
                     _isScisLocated = true;
                 }
@@ -91,12 +91,11 @@ public class BoardCreation : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
-                if ((hit.transform.tag == "Cube") && (hit.transform.name == "0 0" || hit.transform.name == "1 0" || hit.transform.name == "2 0"))
+                if ((hit.transform.tag == "Cube") && (hit.transform.name == "0 0" || hit.transform.name == "1 0" || hit.transform.name == "2 0") && !hit.transform.GetComponent<Tile>().isThereScissor && !hit.transform.GetComponent<Tile>().isThereRock)
                 {
                     Vector3 _paperPos = new Vector3(hit.transform.position.x, 0.5f, hit.transform.position.z);
                     _instantiatePaper = Instantiate(_paper, _paperPos, Quaternion.identity);
                     _paperClicked = hit.transform.gameObject;
-                    hit.transform.GetComponent<Tile>().isTherePaper = true;
                     _destroyPaper.SetActive(false);
                     _isPaperLocated = true;
                 }
@@ -116,9 +115,7 @@ public class BoardCreation : MonoBehaviour
                 if ((hit.transform.tag == "Cube" )&& (hit.transform.name == "0 0" || hit.transform.name == "1 0" || hit.transform.name == "2 0"))
                 {
                     Vector3 _rockPos = new Vector3(hit.transform.position.x, 0.5f, hit.transform.position.z);
-                    _rock.GetComponent<SphereCollider>().enabled = true;
                     instantiateRock = Instantiate(_rock,_rockPos, Quaternion.identity);
-                    hit.transform.GetComponent<Tile>().isThereRock = true;
                     _rockClicked = hit.transform.gameObject;
                     _destroyRock.SetActive(false);
                     _isRockLocated = true;
@@ -149,10 +146,7 @@ public class BoardCreation : MonoBehaviour
                 var isOffset = (i % 2 == 0 && j % 2 != 0) || (i % 2 != 0 && j % 2 == 0);
                 Tile.instance.InIt(isOffset);
             }
-            
         }
-
-        
     }
 
 

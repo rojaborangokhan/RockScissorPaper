@@ -110,6 +110,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: c29e0ba41352f034483ecb05b9b8b01e, type: 2}
   - {fileID: 2100000, guid: f8abf602381b7a6458b765f66330bfb0, type: 2}
   mrender: {fileID: 5544983850909853999}
+  IsPieceMoved: 0
+  _selam: 0
 --- !u!54 &7033214616066359632
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -137,5 +139,5 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.7
+  m_Radius: 0.6
   m_Center: {x: 0, y: 0, z: 0}

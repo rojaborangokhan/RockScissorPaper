@@ -4,32 +4,32 @@ using UnityEngine;
 
 public class SCPaper : MonoBehaviour
 {
-    public List<GameObject> boardCube;
+
     public static SCPaper instance;
     public GameObject _paperTouchCube;
     private void Awake()
     {
         instance = this;
-        boardCube = new List<GameObject>();
+
         
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Cube"))
         {
-            StartCoroutine(LateBeginning());
-            boardCube.Add(other.gameObject);
+
             _paperTouchCube = other.gameObject;
-            
-            for (int i = 0; i < boardCube.Count; i++)
-            {
-                boardCube[i].GetComponent<Tile>().isTherePaper = true;
-            }
+            _paperTouchCube.GetComponent<Tile>().isTherePaper = true;
+
         }
     }
     
-    private IEnumerator LateBeginning()
+    private void OnTriggerExit(Collider other)
     {
-        yield return new WaitForSecondsRealtime(5f*Time.deltaTime);
+        if (other.CompareTag("Cube"))
+        {
+            _paperTouchCube.GetComponent<Tile>().isTherePaper = false;
+        }
     }
+
 }

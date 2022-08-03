@@ -10,27 +10,39 @@ public class Tile : MonoBehaviour
     public bool isThereRock = false;
     public bool isTherePaper = false;
     public bool isThereScissor = false;
-    public List<GameObject> nearCubePaper;
-    public List<GameObject> nearCubeScissor;
-    public List<GameObject> nearCubeRock;
     public static Tile instance;
     public Material[] firstMaterials;
     public Material[] changingMaterials;
     public MeshRenderer mrender;
     private Material[] _currentMaterial;
-    public bool IsPieceMoved;
-    
+    [SerializeField] private GameObject _currentObject;
+    private GameObject _currentGameObject;
+    private Collider[] colliderList;
+    public List<GameObject> neighObjects;
+
 
     private void Awake()
     {
-        IsPieceMoved = false;
         instance = this;
         mrender = this.gameObject.transform.GetComponent<MeshRenderer>();
         firstMaterials = mrender.materials;
-        nearCubePaper = new List<GameObject>();
-        nearCubeRock = new List<GameObject>();
-        nearCubeScissor = new List<GameObject>();
+        colliderList = new Collider[] { };
     }
+
+    private void Start()
+    {
+        colliderList = Physics.OverlapSphere(transform.position, 0.6f);
+        for (int i = 0; i < colliderList.Length; i++)
+        {
+            GameObject hitCollider = colliderList[i].gameObject;
+            
+            if (hitCollider.CompareTag("Cube") && !(hitCollider == this.gameObject))
+            {
+                neighObjects.Add(hitCollider);
+            }
+        }
+    }
+    
 
     public void Sample()
     {
@@ -53,42 +65,5 @@ public class Tile : MonoBehaviour
             _currentMaterial = mrender.materials;
         }
     }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (IsPieceMoved)
-        {
-            StartCoroutine(MakeNearCubes(other));
-            IsPieceMoved = false;
-        }
-        
-
-
-    }
-
-    public IEnumerator MakeNearCubes(Collider other)
-    {
-        yield return new WaitForSecondsRealtime(150f * Time.deltaTime);
-        
-        if (other.CompareTag("Cube") && isTherePaper && !other.gameObject.GetComponent<Tile>().isThereRock && !other.gameObject.GetComponent<Tile>().isThereScissor)
-        {
-            Debug.Log("PAPER LİSTESİ");
-            nearCubePaper.Add(other.gameObject);
-        }
-        else if (other.CompareTag("Cube") && isThereRock && !other.gameObject.GetComponent<Tile>().isTherePaper && !other.gameObject.GetComponent<Tile>().isThereScissor)
-        {
-            Debug.Log("ROCK LİSTESİ");
-            nearCubeRock.Add(other.gameObject);
-        }
-        else if (other.CompareTag("Cube") && isThereScissor && !other.gameObject.GetComponent<Tile>().isThereRock && !other.gameObject.GetComponent<Tile>().isTherePaper)
-        {
-            Debug.Log("SCISSOR LİSTESİ");
-
-            nearCubeScissor.Add(other.gameObject);
-        }
-    }
-    
-    
-    
     
 }

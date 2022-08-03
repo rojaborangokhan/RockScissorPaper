@@ -52,13 +52,25 @@ public class ColliderInputReceiver : MonoBehaviour
                         _chosenObject = _rock;
                         clickPosition = hit.point;
                         _clickedObject = hit.transform.gameObject;
-                        int listCountRock = SCRock.instance._rockTouchCube.GetComponent<Tile>().nearCubeRock.Count;
-                        if (SCRock.instance._rockTouchCube.GetComponent<Tile>().isThereRock)
+                        GameObject _clickBoard = SCRock.instance._rockTouchCube;
+                        int listCountRock = _clickBoard.GetComponent<Tile>().neighObjects.Count;
+                        if (_clickBoard.GetComponent<Tile>().isThereRock)
                         {
+                            List<GameObject> _selamlar = new List<GameObject>();
                             for (int i = 0; i < listCountRock; i++)
                             {
-                                SCRock.instance._rockTouchCube.GetComponent<Tile>().nearCubeRock[i].GetComponent<MeshRenderer>().material = _clickedMaterial;
+                                if (!_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isTherePaper && !_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isThereScissor)
+                                {
+                                    _selamlar.Add(_clickBoard.GetComponent<Tile>().neighObjects[i]);
+                                }
                             }
+
+                            for (int i = 0; i < _selamlar.Count; i++)
+                            {
+                                _selamlar[i].GetComponent<Renderer>().material = _clickedMaterial;
+                            }
+                            
+                            
                         }
                     }
                     else if (hit.transform.gameObject.tag == "Paper")
@@ -70,15 +82,31 @@ public class ColliderInputReceiver : MonoBehaviour
                         _chosenObject = _paper;
                         clickPosition = hit.point;
                         _clickedObject = hit.transform.gameObject;
-                        int listCountPaper = SCPaper.instance._paperTouchCube.GetComponent<Tile>().nearCubePaper.Count;
-                        if (SCPaper.instance._paperTouchCube.GetComponent<Tile>().isTherePaper)
+                        GameObject _clickBoard = SCPaper.instance._paperTouchCube;
+                        int listCountPaper = _clickBoard.GetComponent<Tile>().neighObjects.Count;
+                        if (_clickBoard.GetComponent<Tile>().isTherePaper)
                         {
-                            
+                            List<GameObject> _selamlar = new List<GameObject>();
                             for (int i = 0; i < listCountPaper; i++)
                             {
-                                SCPaper.instance._paperTouchCube.GetComponent<Tile>().nearCubePaper[i].GetComponent<Renderer>().material = _clickedMaterial;
-                                
+                                if (!_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isThereRock && !_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isThereScissor)
+                                {
+                                    _selamlar.Add(_clickBoard.GetComponent<Tile>().neighObjects[i]);
+                                }
                             }
+
+                            for (int i = 0; i < _selamlar.Count; i++)
+                            {
+                                _selamlar[i].GetComponent<Renderer>().material = _clickedMaterial;
+                                RaycastHit newHit = default;
+                                Ray raynew = Camera.main.ScreenPointToRay(Input.mousePosition);
+                                if ( _selamlar[i] = newHit.transform.gameObject)
+                                {
+                                    
+                                }
+                            }
+                            
+                            
                         }
                     }
                     else if (hit.transform.gameObject.tag == "Scissor")
@@ -90,14 +118,25 @@ public class ColliderInputReceiver : MonoBehaviour
                         _chosenObject = _scissor;
                         clickPosition = hit.point;
                         _clickedObject = hit.transform.gameObject;
-                        int listCountScissor = SCScrissor.instance._scissorTouchCube.GetComponent<Tile>().nearCubeScissor.Count;
-                        
-                        if (SCScrissor.instance._scissorTouchCube.GetComponent<Tile>().isThereScissor)
+                        GameObject _clickBoard = SCScrissor.instance._scissorTouchCube;
+                        int listCountScissor = _clickBoard.GetComponent<Tile>().neighObjects.Count;
+                        if (_clickBoard.GetComponent<Tile>().isThereScissor)
                         {
+                            List<GameObject> _selamlar = new List<GameObject>();
                             for (int i = 0; i < listCountScissor; i++)
                             {
-                                SCScrissor.instance._scissorTouchCube.GetComponent<Tile>().nearCubeScissor[i].GetComponent<Renderer>().material = _clickedMaterial;
+                                if (!_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isTherePaper && !_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isThereRock)
+                                {
+                                    _selamlar.Add(_clickBoard.GetComponent<Tile>().neighObjects[i]);
+                                }
                             }
+
+                            for (int i = 0; i < _selamlar.Count; i++)
+                            {
+                                _selamlar[i].GetComponent<Renderer>().material = _clickedMaterial;
+                            }
+                            
+                            
                         }
                     }
                     else if (hit.transform.gameObject.tag != "Scissor" || hit.transform.gameObject.tag != "Paper" || hit.transform.gameObject.tag != "Rock" || hit.transform == null)
@@ -112,6 +151,11 @@ public class ColliderInputReceiver : MonoBehaviour
                 } 
             }
         }
+    }
+
+    public void MoveObjects()
+    {
+        
     }
     
     
