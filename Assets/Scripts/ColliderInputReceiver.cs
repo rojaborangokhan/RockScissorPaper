@@ -16,10 +16,14 @@ public class ColliderInputReceiver : MonoBehaviour
     private Material _prevMat;
     private Object[] allCubes;
     public bool _objectSpawned = false;
+    public int _clickNumber = 1;
+    public List<GameObject> nearCubes;
+    private bool _isRockChosen, _isPaperChosen, _isScissorChosen;
 
     private void Awake()
     {
         instance = this;
+        nearCubes = new List<GameObject>();
     }
 
     void Update()
@@ -36,129 +40,133 @@ public class ColliderInputReceiver : MonoBehaviour
         if (_objectSpawned)
         {
 
-            if (Input.GetMouseButtonDown(0)) 
-            { 
+            if (Input.GetMouseButtonDown(0))
+            {
                 
                 RaycastHit hit;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray,out hit))
                 {
-                    if (hit.transform.gameObject.tag == "Rock")
+                    
+                    if (hit.transform.gameObject.tag == "Rock" && _clickNumber == 1)
                     {
+                        nearCubes.Clear();
+                        _isRockChosen = true;
+                        _isPaperChosen = false;
+                        _isScissorChosen = false;
+                        _clickNumber++;
                         allCubes = FindObjectsOfType(typeof(Tile));
                         foreach( var a in allCubes) {             
                             a.GetComponent<Tile>().Sample();      
                         } 
-                        _chosenObject = _rock;
-                        clickPosition = hit.point;
                         _clickedObject = hit.transform.gameObject;
                         GameObject _clickBoard = SCRock.instance._rockTouchCube;
                         int listCountRock = _clickBoard.GetComponent<Tile>().neighObjects.Count;
                         if (_clickBoard.GetComponent<Tile>().isThereRock)
                         {
-                            List<GameObject> _selamlar = new List<GameObject>();
                             for (int i = 0; i < listCountRock; i++)
                             {
                                 if (!_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isTherePaper && !_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isThereScissor)
                                 {
-                                    _selamlar.Add(_clickBoard.GetComponent<Tile>().neighObjects[i]);
+                                    nearCubes.Add(_clickBoard.GetComponent<Tile>().neighObjects[i]);
                                 }
                             }
-
-                            for (int i = 0; i < _selamlar.Count; i++)
+                            for (int i = 0; i < nearCubes.Count; i++)
                             {
-                                _selamlar[i].GetComponent<Renderer>().material = _clickedMaterial;
+                                nearCubes[i].GetComponent<Renderer>().material = _clickedMaterial;
                             }
-                            
-                            
+
                         }
                     }
-                    else if (hit.transform.gameObject.tag == "Paper")
+                    else if (hit.transform.gameObject.tag == "Paper" && _clickNumber == 1)
                     {
+                        nearCubes.Clear();
+                        _isPaperChosen = true;
+                        _isRockChosen = false;
+                        _isScissorChosen = false;
+                        _clickNumber++;
                         allCubes = FindObjectsOfType(typeof(Tile));
                         foreach( var a in allCubes) {             
                             a.GetComponent<Tile>().Sample();      
-                        } 
-                        _chosenObject = _paper;
-                        clickPosition = hit.point;
+                        }
                         _clickedObject = hit.transform.gameObject;
                         GameObject _clickBoard = SCPaper.instance._paperTouchCube;
                         int listCountPaper = _clickBoard.GetComponent<Tile>().neighObjects.Count;
                         if (_clickBoard.GetComponent<Tile>().isTherePaper)
                         {
-                            List<GameObject> _selamlar = new List<GameObject>();
                             for (int i = 0; i < listCountPaper; i++)
                             {
                                 if (!_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isThereRock && !_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isThereScissor)
                                 {
-                                    _selamlar.Add(_clickBoard.GetComponent<Tile>().neighObjects[i]);
+                                    nearCubes.Add(_clickBoard.GetComponent<Tile>().neighObjects[i]);
                                 }
                             }
-
-                            for (int i = 0; i < _selamlar.Count; i++)
+                            for (int i = 0; i < nearCubes.Count; i++)
                             {
-                                _selamlar[i].GetComponent<Renderer>().material = _clickedMaterial;
-                                RaycastHit newHit = default;
-                                Ray raynew = Camera.main.ScreenPointToRay(Input.mousePosition);
-                                if ( _selamlar[i] = newHit.transform.gameObject)
-                                {
-                                    
-                                }
+                                nearCubes[i].GetComponent<Renderer>().material = _clickedMaterial;
                             }
-                            
-                            
                         }
                     }
-                    else if (hit.transform.gameObject.tag == "Scissor")
+                    else if (hit.transform.gameObject.tag == "Scissor"  && _clickNumber == 1)
                     {
+                        nearCubes.Clear();
+                        _isScissorChosen = true;
+                        _isPaperChosen = false;
+                        _isRockChosen = false;
+                        _clickNumber++;
                         allCubes = FindObjectsOfType(typeof(Tile));
                         foreach( var a in allCubes) {             
                             a.GetComponent<Tile>().Sample();      
-                        } 
-                        _chosenObject = _scissor;
-                        clickPosition = hit.point;
+                        }
                         _clickedObject = hit.transform.gameObject;
                         GameObject _clickBoard = SCScrissor.instance._scissorTouchCube;
                         int listCountScissor = _clickBoard.GetComponent<Tile>().neighObjects.Count;
                         if (_clickBoard.GetComponent<Tile>().isThereScissor)
                         {
-                            List<GameObject> _selamlar = new List<GameObject>();
                             for (int i = 0; i < listCountScissor; i++)
                             {
                                 if (!_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isTherePaper && !_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isThereRock)
                                 {
-                                    _selamlar.Add(_clickBoard.GetComponent<Tile>().neighObjects[i]);
+                                    nearCubes.Add(_clickBoard.GetComponent<Tile>().neighObjects[i]);
                                 }
                             }
-
-                            for (int i = 0; i < _selamlar.Count; i++)
+                            for (int i = 0; i < nearCubes.Count; i++)
                             {
-                                _selamlar[i].GetComponent<Renderer>().material = _clickedMaterial;
+                                nearCubes[i].GetComponent<Renderer>().material = _clickedMaterial;
                             }
-                            
-                            
                         }
                     }
-                    else if (hit.transform.gameObject.tag != "Scissor" || hit.transform.gameObject.tag != "Paper" || hit.transform.gameObject.tag != "Rock" || hit.transform == null)
+                    else if ((hit.transform.gameObject.tag != "Scissor" || hit.transform.gameObject.tag != "Paper" || hit.transform.gameObject.tag != "Rock") && _clickNumber == 1)
                     {
-                        
+                        allCubes = FindObjectsOfType(typeof(Tile));
+                        foreach( var a in allCubes) { 
+                            a.GetComponent<Tile>().Sample();
+                        }
+
+                        _isPaperChosen = false;
+                        _isRockChosen = false;
+                        _isScissorChosen = false;
+                    }
+                    else if (_isPaperChosen || _isRockChosen || _isScissorChosen)
+                    {
+                        for (int i = 0; i < nearCubes.Count; i++)
+                        {
+                            if (hit.transform.gameObject == nearCubes[i])
+                            {
+                                Vector3 _targetPos = new Vector3(hit.transform.position.x, 0.5f, hit.transform.position.z);
+                                _clickedObject.transform.position = Vector3.MoveTowards(_clickedObject.transform.position,
+                                    _targetPos, 500f);
+                            }
+                        }
                         allCubes = FindObjectsOfType(typeof(Tile));
                         foreach( var a in allCubes) {             
                             a.GetComponent<Tile>().Sample();      
-                        }     
-                        
-                    } 
+                        }
+                        _clickNumber--;
+                    }
                 } 
             }
         }
     }
-
-    public void MoveObjects()
-    {
-        
-    }
-    
-    
-    
     
 }

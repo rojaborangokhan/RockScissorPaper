@@ -101,17 +101,18 @@ MonoBehaviour:
   isThereRock: 0
   isTherePaper: 0
   isThereScissor: 0
-  nearCubePaper: []
-  nearCubeScissor: []
-  nearCubeRock: []
   firstMaterials:
   - {fileID: 2100000, guid: c29e0ba41352f034483ecb05b9b8b01e, type: 2}
   changingMaterials:
   - {fileID: 2100000, guid: c29e0ba41352f034483ecb05b9b8b01e, type: 2}
   - {fileID: 2100000, guid: f8abf602381b7a6458b765f66330bfb0, type: 2}
   mrender: {fileID: 5544983850909853999}
-  IsPieceMoved: 0
-  _selam: 0
+  _currentObject: {fileID: 0}
+  neighObjects: []
+  forbiddenMaterials:
+  - {fileID: 2100000, guid: 82983538bf8b9e34ea220e9954c867d0, type: 2}
+  - {fileID: 2100000, guid: 17a2b6488e7ce6042918375b2119891d, type: 2}
+  - {fileID: 2100000, guid: c13027a4055a4e44f84b4a86cd425ffa, type: 2}
 --- !u!54 &7033214616066359632
 Rigidbody:
   m_ObjectHideFlags: 0

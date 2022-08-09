@@ -19,6 +19,7 @@ public class Tile : MonoBehaviour
     private GameObject _currentGameObject;
     private Collider[] colliderList;
     public List<GameObject> neighObjects;
+    [SerializeField] private Material[] forbiddenMaterials;
 
 
     private void Awake()
@@ -64,6 +65,53 @@ public class Tile : MonoBehaviour
             mrender.materials = x;
             _currentMaterial = mrender.materials;
         }
+
+        // if (BoardCreation.instance.forbiddenCubes != null)
+        // {
+        //     DefineForbiddenCubes();
+        // }
+
     }
-    
+
+    public void DefineForbiddenCubes()
+    {
+        int randomNum = UnityEngine.Random.Range(0,6); 
+        switch (randomNum)
+        {
+            case 0:
+                BoardCreation.instance.forbiddenCubes[0].GetComponent<MeshRenderer>().material = forbiddenMaterials[0];
+                BoardCreation.instance.forbiddenCubes[1].GetComponent<MeshRenderer>().material = forbiddenMaterials[1];
+                BoardCreation.instance.forbiddenCubes[2].GetComponent<MeshRenderer>().material = forbiddenMaterials[2];
+                break;
+            
+            case 1:
+                BoardCreation.instance.forbiddenCubes[0].GetComponent<MeshRenderer>().material = forbiddenMaterials[0];
+                BoardCreation.instance.forbiddenCubes[1].GetComponent<MeshRenderer>().material = forbiddenMaterials[2];
+                BoardCreation.instance.forbiddenCubes[2].GetComponent<MeshRenderer>().material = forbiddenMaterials[1];
+                break;
+            case 2:
+                BoardCreation.instance.forbiddenCubes[0].GetComponent<MeshRenderer>().material = forbiddenMaterials[1];
+                BoardCreation.instance.forbiddenCubes[1].GetComponent<MeshRenderer>().material = forbiddenMaterials[0];
+                BoardCreation.instance.forbiddenCubes[2].GetComponent<MeshRenderer>().material = forbiddenMaterials[2];
+                break;
+            
+            case 3:
+                BoardCreation.instance.forbiddenCubes[0].GetComponent<MeshRenderer>().material = forbiddenMaterials[1];
+                BoardCreation.instance.forbiddenCubes[1].GetComponent<MeshRenderer>().material = forbiddenMaterials[2];
+                BoardCreation.instance.forbiddenCubes[2].GetComponent<MeshRenderer>().material = forbiddenMaterials[0];
+                break;
+            
+            case 4:
+                BoardCreation.instance.forbiddenCubes[0].GetComponent<MeshRenderer>().material = forbiddenMaterials[2];
+                BoardCreation.instance.forbiddenCubes[1].GetComponent<MeshRenderer>().material = forbiddenMaterials[1];
+                BoardCreation.instance.forbiddenCubes[2].GetComponent<MeshRenderer>().material = forbiddenMaterials[0];
+                break;
+            
+            case 5:
+                BoardCreation.instance.forbiddenCubes[0].GetComponent<MeshRenderer>().material = forbiddenMaterials[2];
+                BoardCreation.instance.forbiddenCubes[1].GetComponent<MeshRenderer>().material = forbiddenMaterials[0];
+                BoardCreation.instance.forbiddenCubes[2].GetComponent<MeshRenderer>().material = forbiddenMaterials[1];
+                break;
+        }
+    }
 }
