@@ -137,13 +137,13 @@ public class BoardCreation : MonoBehaviour
                 spawnedTile.name = $"{j} {i}";
                 var isOffset = (i % 2 == 0 && j % 2 != 0) || (i % 2 != 0 && j % 2 == 0);
                 Tile.instance.InIt(isOffset);
-
                 if ((j == 0 && i == 1) || (j == 2 && i == 1) || (j == 1 && i == 2))
                 {
                     forbiddenCubes.Add(spawnedTile);
                 }
             }
         }
+        Tile.instance.DefineForbiddenCubes();
     }
 
 

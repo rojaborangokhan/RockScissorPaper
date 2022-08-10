@@ -66,7 +66,9 @@ public class ColliderInputReceiver : MonoBehaviour
                         {
                             for (int i = 0; i < listCountRock; i++)
                             {
-                                if (!_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isTherePaper && !_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isThereScissor)
+                                if (!_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isTherePaper 
+                                    && !_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isThereScissor 
+                                    && _clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>()._canRockTouch)
                                 {
                                     nearCubes.Add(_clickBoard.GetComponent<Tile>().neighObjects[i]);
                                 }
@@ -96,7 +98,9 @@ public class ColliderInputReceiver : MonoBehaviour
                         {
                             for (int i = 0; i < listCountPaper; i++)
                             {
-                                if (!_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isThereRock && !_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isThereScissor)
+                                if (!_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isThereRock &&
+                                    !_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isThereScissor &&
+                                    _clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>()._canPaperTouch)
                                 {
                                     nearCubes.Add(_clickBoard.GetComponent<Tile>().neighObjects[i]);
                                 }
@@ -125,7 +129,9 @@ public class ColliderInputReceiver : MonoBehaviour
                         {
                             for (int i = 0; i < listCountScissor; i++)
                             {
-                                if (!_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isTherePaper && !_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isThereRock)
+                                if (!_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isTherePaper 
+                                    && !_clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>().isThereRock
+                                    && _clickBoard.GetComponent<Tile>().neighObjects[i].GetComponent<Tile>()._canScissorTouch)
                                 {
                                     nearCubes.Add(_clickBoard.GetComponent<Tile>().neighObjects[i]);
                                 }
@@ -142,7 +148,6 @@ public class ColliderInputReceiver : MonoBehaviour
                         foreach( var a in allCubes) { 
                             a.GetComponent<Tile>().Sample();
                         }
-
                         _isPaperChosen = false;
                         _isRockChosen = false;
                         _isScissorChosen = false;
