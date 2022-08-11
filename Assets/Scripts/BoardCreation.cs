@@ -26,21 +26,19 @@ public class BoardCreation : MonoBehaviour
     private bool _isScisLocated = false;
     public GameObject _rockClicked, _paperClicked, _scissorClicked;
     private Object[] allCubes;
-    public List<GameObject> forbiddenCubes;
+    public List<GameObject> forbiddenCubes, destroyedCubes, _destroyNearObjects;
 
 
     private void Awake()
     {
         instance = this;
         List<GameObject> forbiddenCubes = new List<GameObject>();
+        List<GameObject> destroyedCubes = new List<GameObject>();
+        List<GameObject> _destroyNearObjects = new List<GameObject>();
         GenerateGrid(_boardWidth, _boardHeight);
-
+        
     }
-
-    private void OnEnable()
-    {
-    }
-
+    
     void Update()
     {
         if (!_isRockLocated)
@@ -140,6 +138,16 @@ public class BoardCreation : MonoBehaviour
                 if ((j == 0 && i == 1) || (j == 2 && i == 1) || (j == 1 && i == 2))
                 {
                     forbiddenCubes.Add(spawnedTile);
+                }
+
+                if ((j== 0 && i==0) || (j == 1 && i == 0) || (j == 2 && i == 0))
+                {
+                    destroyedCubes.Add(spawnedTile);
+                }
+
+                if ((j== 0 && i==1) || (j == 1 && i == 1) || (j == 2 && i == 1))
+                {
+                    _destroyNearObjects.Add(spawnedTile);
                 }
             }
         }

@@ -18,6 +18,7 @@ public class SCRock : MonoBehaviour
         {
             _rockTouchCube = other.gameObject;
             _rockTouchCube.GetComponent<Tile>().isThereRock = true;
+            _rockTouchCube.GetComponent<Tile>()._touchAnything = true;
         }
     }
     private void OnTriggerExit(Collider other)
@@ -25,6 +26,7 @@ public class SCRock : MonoBehaviour
         if (other.CompareTag("Cube"))
         {
             _rockTouchCube.GetComponent<Tile>().isThereRock = false;
+            _rockTouchCube.GetComponent<Tile>()._touchAnything = false;
         }
     }
 

@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
 public class ColliderInputReceiver : MonoBehaviour
@@ -19,7 +21,9 @@ public class ColliderInputReceiver : MonoBehaviour
     public int _clickNumber = 1;
     public List<GameObject> nearCubes;
     private bool _isRockChosen, _isPaperChosen, _isScissorChosen;
-
+    private bool _willDestroy = true;
+    [SerializeField] private Button _resBut;
+    private bool _canGoBack = true;
     private void Awake()
     {
         instance = this;
@@ -35,6 +39,7 @@ public class ColliderInputReceiver : MonoBehaviour
         
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     private void ClickToObject()
     {
         if (_objectSpawned)
@@ -47,7 +52,16 @@ public class ColliderInputReceiver : MonoBehaviour
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray,out hit))
                 {
-                    
+                    if (_canGoBack)
+                    {
+                        for (int j = 0; j < BoardCreation.instance._destroyNearObjects.Count; j++)
+                        {
+                            BoardCreation.instance._destroyNearObjects[j].GetComponent<Tile>().neighObjects.RemoveAt(BoardCreation.instance._destroyNearObjects[j].GetComponent<Tile>().neighObjects.Count-1);
+                        }
+
+                        _canGoBack = false;
+                    }
+                    _canGoBack = false;
                     if (hit.transform.gameObject.tag == "Rock" && _clickNumber == 1)
                     {
                         nearCubes.Clear();
@@ -154,13 +168,19 @@ public class ColliderInputReceiver : MonoBehaviour
                     }
                     else if (_isPaperChosen || _isRockChosen || _isScissorChosen)
                     {
+                        if (_resBut !=null)
+                        {
+                            Destroy(_resBut.gameObject);
+                        }
+                        
                         for (int i = 0; i < nearCubes.Count; i++)
                         {
                             if (hit.transform.gameObject == nearCubes[i])
                             {
                                 Vector3 _targetPos = new Vector3(hit.transform.position.x, 0.5f, hit.transform.position.z);
-                                _clickedObject.transform.position = Vector3.MoveTowards(_clickedObject.transform.position,
-                                    _targetPos, 500f);
+                                //_clickedObject.transform.position = Vector3.MoveTowards(_clickedObject.transform.position,_targetPos,4f);
+                                _clickedObject.transform.position = Vector3.Lerp(_clickedObject.transform.position,
+                                    _targetPos, 500f*Time.deltaTime);
                             }
                         }
                         allCubes = FindObjectsOfType(typeof(Tile));
@@ -169,9 +189,48 @@ public class ColliderInputReceiver : MonoBehaviour
                         }
                         _clickNumber--;
                     }
+
+                    if (_willDestroy)
+                    {
+                        DestroyItself(); 
+                    }
+                    
                 } 
             }
         }
     }
     
+    
+    public void DestroyItself()
+    {
+        if (BoardCreation.instance.destroyedCubes != null)
+        {
+            int destroyNum = 0;
+            for (int i = 0; i < BoardCreation.instance.destroyedCubes.Count; i++)
+            {
+                
+                if (!BoardCreation.instance.destroyedCubes[i].GetComponent<Tile>()._touchAnything)
+                {
+                    destroyNum++;
+                }
+
+                if (destroyNum == 3)
+                {
+                    for (int j = 0; j < BoardCreation.instance.destroyedCubes.Count; j++)
+                    {
+                        Destroy(BoardCreation.instance.destroyedCubes[j]);
+                    }
+                    _willDestroy = false;
+                    
+                }
+                
+            }
+            
+        }
+
+        
+
+        
+
+    }
 }

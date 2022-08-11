@@ -20,7 +20,7 @@ public class SCPaper : MonoBehaviour
 
             _paperTouchCube = other.gameObject;
             _paperTouchCube.GetComponent<Tile>().isTherePaper = true;
-
+            _paperTouchCube.GetComponent<Tile>()._touchAnything = true;
         }
     }
     
@@ -29,6 +29,7 @@ public class SCPaper : MonoBehaviour
         if (other.CompareTag("Cube"))
         {
             _paperTouchCube.GetComponent<Tile>().isTherePaper = false;
+            _paperTouchCube.GetComponent<Tile>()._touchAnything = false;
         }
     }
 

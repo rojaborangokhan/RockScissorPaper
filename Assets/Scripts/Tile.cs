@@ -23,7 +23,7 @@ public class Tile : MonoBehaviour
     public bool _canRockTouch = true;
     public bool _canPaperTouch = true;
     public bool _canScissorTouch = true;
-
+    public bool _touchAnything = false;
 
     private void Awake()
     {
@@ -31,6 +31,7 @@ public class Tile : MonoBehaviour
         mrender = this.gameObject.transform.GetComponent<MeshRenderer>();
         firstMaterials = mrender.materials;
         colliderList = new Collider[] { };
+        
     }
 
     private void Start()
@@ -317,4 +318,6 @@ public class Tile : MonoBehaviour
                 break;
         }
     }
+
+    
 }

@@ -19,6 +19,7 @@ public class SCScrissor : MonoBehaviour
         {
             _scissorTouchCube = other.gameObject;
             _scissorTouchCube.GetComponent<Tile>().isThereScissor = true;
+            _scissorTouchCube.GetComponent<Tile>()._touchAnything = true;
         }
     }
 
@@ -27,6 +28,7 @@ public class SCScrissor : MonoBehaviour
         if (other.CompareTag("Cube"))
         {
             _scissorTouchCube.GetComponent<Tile>().isThereScissor = false;
+            _scissorTouchCube.GetComponent<Tile>()._touchAnything = false;
         }
     }
     
