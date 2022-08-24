@@ -14,7 +14,6 @@ public class BoardCreation : MonoBehaviour
     public static BoardCreation instance;
     [SerializeField] private int _boardWidth, _boardHeight;
     [SerializeField] private GameObject _cube;
-    [SerializeField] private Tile _tile;
     private GameObject spawnedTile;
     [SerializeField] private GameObject _rock;
     [SerializeField] private GameObject _paper;
@@ -36,7 +35,6 @@ public class BoardCreation : MonoBehaviour
         List<GameObject> destroyedCubes = new List<GameObject>();
         List<GameObject> _destroyNearObjects = new List<GameObject>();
         GenerateGrid(_boardWidth, _boardHeight);
-        
     }
     
     void Update()
@@ -132,30 +130,28 @@ public class BoardCreation : MonoBehaviour
             for (int j = 0; j < boardWidth; j++)
             {
                 spawnedTile = Instantiate(_cube, new Vector3(j,0, i), Quaternion.identity);
+                // spawnedTile oluşturup adlandırmasını yapıyoruz
                 spawnedTile.name = $"{j} {i}";
+                // küplerin rengini atıyoruz
                 var isOffset = (i % 2 == 0 && j % 2 != 0) || (i % 2 != 0 && j % 2 == 0);
                 Tile.instance.InIt(isOffset);
-                if ((j == 0 && i == 1) || (j == 2 && i == 1) || (j == 1 && i == 2))
-                {
-                    forbiddenCubes.Add(spawnedTile);
-                }
-
-                if ((j== 0 && i==0) || (j == 1 && i == 0) || (j == 2 && i == 0))
+                // ilk sırayı listeye ekliyoruz
+                if ((i == 0) && (j==1 || j == 0 || j ==2) )
                 {
                     destroyedCubes.Add(spawnedTile);
                 }
-
-                if ((j== 0 && i==1) || (j == 1 && i == 1) || (j == 2 && i == 1))
+                if ((i == 1) && (j==1 || j == 0 || j ==2) )
                 {
                     _destroyNearObjects.Add(spawnedTile);
+                }
+                if ((j == 0 && i == 1) || (j == 2 && i == 1) || (j == 1 && i == 2))
+                {
+                    forbiddenCubes.Add(spawnedTile);
                 }
             }
         }
         Tile.instance.DefineForbiddenCubes();
     }
-
-
- 
     
     public void ResetButton()
     {
@@ -190,10 +186,6 @@ public class BoardCreation : MonoBehaviour
             }
         } 
     }
-
-
-
-    
     
     
 }

@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+
 
 public class Tile : MonoBehaviour
 {
@@ -24,14 +26,14 @@ public class Tile : MonoBehaviour
     public bool _canPaperTouch = true;
     public bool _canScissorTouch = true;
     public bool _touchAnything = false;
-
+    public GameObject _forwardObject, _backObject, _leftObject, _rightObject;
+    
     private void Awake()
     {
         instance = this;
         mrender = this.gameObject.transform.GetComponent<MeshRenderer>();
         firstMaterials = mrender.materials;
         colliderList = new Collider[] { };
-        
     }
 
     private void Start()
@@ -44,11 +46,17 @@ public class Tile : MonoBehaviour
             if (hitCollider.CompareTag("Cube") && !(hitCollider == this.gameObject))
             {
                 neighObjects.Add(hitCollider);
+                // if (hitCollider.name == "0 0" || hitCollider.name == "1 0" || hitCollider.name == "2 0")
+                // {
+                //     neighObjects.Remove(hitCollider);
+                // }
             }
         }
+        neighObjects = neighObjects.OrderBy(go=>go.name).ToList();
+
+        
     }
     
-
     public void Sample()
     {
 
@@ -77,6 +85,8 @@ public class Tile : MonoBehaviour
     public void DefineForbiddenCubes()
     {
         int randomNum = UnityEngine.Random.Range(0,6);
+        List<GameObject> forbidCubes = new List<GameObject>();
+        forbidCubes = BoardCreation.instance.forbiddenCubes;
         switch (randomNum)
         {
             case 0:
@@ -86,34 +96,31 @@ public class Tile : MonoBehaviour
                     if (i == 0)
                     {
                         
-                        var x =  BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().firstMaterials;
+                        var x =  forbidCubes[i].GetComponent<Tile>().firstMaterials;
                         x[0] = forbiddenMaterials[i];
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials = x;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._currentMaterial = BoardCreation
-                            .instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._canRockTouch = false;
+                        forbidCubes[i].GetComponent<Tile>().mrender.materials = x;
+                        forbidCubes[i].GetComponent<Tile>()._currentMaterial = forbidCubes[i].GetComponent<Tile>().mrender.materials;
+                        forbidCubes[i].GetComponent<Tile>()._canRockTouch = false;
                     }
 
                     else if (i == 1)
                     {
                         
-                        var x =  BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().firstMaterials;
+                        var x =  forbidCubes[i].GetComponent<Tile>().firstMaterials;
                         x[0] = forbiddenMaterials[i];
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials = x;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._currentMaterial = BoardCreation
-                            .instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials;
-                        BoardCreation.instance.forbiddenCubes[1].GetComponent<Tile>()._canPaperTouch = false;
+                        forbidCubes[i].GetComponent<Tile>().mrender.materials = x;
+                        forbidCubes[i].GetComponent<Tile>()._currentMaterial = forbidCubes[i].GetComponent<Tile>().mrender.materials;
+                        forbidCubes[1].GetComponent<Tile>()._canPaperTouch = false;
                     }
 
                     else if (i == 2)
                     {
                         
-                        var x =  BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().firstMaterials;
+                        var x =  forbidCubes[i].GetComponent<Tile>().firstMaterials;
                         x[0] = forbiddenMaterials[i];
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials = x;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._currentMaterial = BoardCreation
-                            .instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials;
-                        BoardCreation.instance.forbiddenCubes[2].GetComponent<Tile>()._canScissorTouch = false;
+                        forbidCubes[i].GetComponent<Tile>().mrender.materials = x;
+                        forbidCubes[i].GetComponent<Tile>()._currentMaterial = forbidCubes[i].GetComponent<Tile>().mrender.materials;
+                        forbidCubes[2].GetComponent<Tile>()._canScissorTouch = false;
                     }
                     
                 }
@@ -126,34 +133,31 @@ public class Tile : MonoBehaviour
                     if (i == 0)
                     {
                         
-                        var x =  BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().firstMaterials;
+                        var x =  forbidCubes[i].GetComponent<Tile>().firstMaterials;
                         x[0] = forbiddenMaterials[0];
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials = x;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._currentMaterial = BoardCreation
-                            .instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._canRockTouch = false;
+                        forbidCubes[i].GetComponent<Tile>().mrender.materials = x;
+                        forbidCubes[i].GetComponent<Tile>()._currentMaterial = forbidCubes[i].GetComponent<Tile>().mrender.materials;
+                        forbidCubes[i].GetComponent<Tile>()._canRockTouch = false;
                     }
 
                     else if (i == 1)
                     {
                         
-                        var x =  BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().firstMaterials;
+                        var x =  forbidCubes[i].GetComponent<Tile>().firstMaterials;
                         x[0] = forbiddenMaterials[2];
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials = x;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._currentMaterial = BoardCreation
-                            .instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials;
-                        BoardCreation.instance.forbiddenCubes[1].GetComponent<Tile>()._canScissorTouch = false;
+                        forbidCubes[i].GetComponent<Tile>().mrender.materials = x;
+                        forbidCubes[i].GetComponent<Tile>()._currentMaterial = forbidCubes[i].GetComponent<Tile>().mrender.materials;
+                        forbidCubes[1].GetComponent<Tile>()._canScissorTouch = false;
                     }
 
                     else if (i == 2)
                     {
                         
-                        var x =  BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().firstMaterials;
+                        var x =  forbidCubes[i].GetComponent<Tile>().firstMaterials;
                         x[0] = forbiddenMaterials[1];
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials = x;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._currentMaterial = BoardCreation
-                            .instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials;
-                        BoardCreation.instance.forbiddenCubes[2].GetComponent<Tile>()._canPaperTouch = false;
+                        forbidCubes[i].GetComponent<Tile>().mrender.materials = x;
+                        forbidCubes[i].GetComponent<Tile>()._currentMaterial = forbidCubes[i].GetComponent<Tile>().mrender.materials;
+                        forbidCubes[2].GetComponent<Tile>()._canPaperTouch = false;
                     }
                 }
                 break;
@@ -164,34 +168,31 @@ public class Tile : MonoBehaviour
                     if (i == 0)
                     {
                         
-                        var x =  BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().firstMaterials;
+                        var x =  forbidCubes[i].GetComponent<Tile>().firstMaterials;
                         x[0] = forbiddenMaterials[1];
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials = x;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._currentMaterial = BoardCreation
-                            .instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._canPaperTouch = false;
+                        forbidCubes[i].GetComponent<Tile>().mrender.materials = x;
+                        forbidCubes[i].GetComponent<Tile>()._currentMaterial = forbidCubes[i].GetComponent<Tile>().mrender.materials;
+                        forbidCubes[i].GetComponent<Tile>()._canPaperTouch = false;
                     }
 
                     else if (i == 1)
                     {
                         
-                        var x =  BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().firstMaterials;
+                        var x =  forbidCubes[i].GetComponent<Tile>().firstMaterials;
                         x[0] = forbiddenMaterials[0];
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials = x;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._currentMaterial = BoardCreation
-                            .instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials;
-                        BoardCreation.instance.forbiddenCubes[1].GetComponent<Tile>()._canRockTouch = false;
+                        forbidCubes[i].GetComponent<Tile>().mrender.materials = x;
+                        forbidCubes[i].GetComponent<Tile>()._currentMaterial = forbidCubes[i].GetComponent<Tile>().mrender.materials;
+                        forbidCubes[1].GetComponent<Tile>()._canRockTouch = false;
                     }
 
                     else if (i == 2)
                     {
                         
-                        var x =  BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().firstMaterials;
+                        var x =  forbidCubes[i].GetComponent<Tile>().firstMaterials;
                         x[0] = forbiddenMaterials[2];
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials = x;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._currentMaterial = BoardCreation
-                            .instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials;
-                        BoardCreation.instance.forbiddenCubes[2].GetComponent<Tile>()._canScissorTouch = false;
+                        forbidCubes[i].GetComponent<Tile>().mrender.materials = x;
+                        forbidCubes[i].GetComponent<Tile>()._currentMaterial = forbidCubes[i].GetComponent<Tile>().mrender.materials;
+                        forbidCubes[2].GetComponent<Tile>()._canScissorTouch = false;
                     }
                 }
                 break;
@@ -203,34 +204,31 @@ public class Tile : MonoBehaviour
                     if (i == 0)
                     {
                         
-                        var x =  BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().firstMaterials;
+                        var x =  forbidCubes[i].GetComponent<Tile>().firstMaterials;
                         x[0] = forbiddenMaterials[1];
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials = x;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._currentMaterial = BoardCreation
-                            .instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._canPaperTouch = false;
+                        forbidCubes[i].GetComponent<Tile>().mrender.materials = x;
+                        forbidCubes[i].GetComponent<Tile>()._currentMaterial = forbidCubes[i].GetComponent<Tile>().mrender.materials;
+                        forbidCubes[i].GetComponent<Tile>()._canPaperTouch = false;
                     }
 
                     else if (i == 1)
                     {
                         
-                        var x =  BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().firstMaterials;
+                        var x =  forbidCubes[i].GetComponent<Tile>().firstMaterials;
                         x[0] = forbiddenMaterials[2];
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials = x;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._currentMaterial = BoardCreation
-                            .instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials;
-                        BoardCreation.instance.forbiddenCubes[1].GetComponent<Tile>()._canScissorTouch = false;
+                        forbidCubes[i].GetComponent<Tile>().mrender.materials = x;
+                        forbidCubes[i].GetComponent<Tile>()._currentMaterial = forbidCubes[i].GetComponent<Tile>().mrender.materials;
+                        forbidCubes[1].GetComponent<Tile>()._canScissorTouch = false;
                     }
 
                     else if (i == 2)
                     {
                         
-                        var x =  BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().firstMaterials;
+                        var x =  forbidCubes[i].GetComponent<Tile>().firstMaterials;
                         x[0] = forbiddenMaterials[0];
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials = x;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._currentMaterial = BoardCreation
-                            .instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials;
-                        BoardCreation.instance.forbiddenCubes[2].GetComponent<Tile>()._canRockTouch = false;
+                        forbidCubes[i].GetComponent<Tile>().mrender.materials = x;
+                        forbidCubes[i].GetComponent<Tile>()._currentMaterial = forbidCubes[i].GetComponent<Tile>().mrender.materials;
+                        forbidCubes[2].GetComponent<Tile>()._canRockTouch = false;
                     }
                 }
 
@@ -243,34 +241,33 @@ public class Tile : MonoBehaviour
                     if (i == 0)
                     {
                         
-                        var x =  BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().firstMaterials;
+                        var x =  forbidCubes[i].GetComponent<Tile>().firstMaterials;
                         x[0] = forbiddenMaterials[2];
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials = x;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._currentMaterial = BoardCreation
+                        forbidCubes[i].GetComponent<Tile>().mrender.materials = x;
+                        forbidCubes[i].GetComponent<Tile>()._currentMaterial = BoardCreation
                             .instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._canScissorTouch = false;
+                        forbidCubes[i].GetComponent<Tile>()._canScissorTouch = false;
                     }
 
                     else if (i == 1)
                     {
                         
-                        var x =  BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().firstMaterials;
+                        var x =  forbidCubes[i].GetComponent<Tile>().firstMaterials;
                         x[0] = forbiddenMaterials[1];
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials = x;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._currentMaterial = BoardCreation
+                        forbidCubes[i].GetComponent<Tile>().mrender.materials = x;
+                        forbidCubes[i].GetComponent<Tile>()._currentMaterial = BoardCreation
                             .instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials;
-                        BoardCreation.instance.forbiddenCubes[1].GetComponent<Tile>()._canPaperTouch = false;
+                        forbidCubes[1].GetComponent<Tile>()._canPaperTouch = false;
                     }
 
                     else if (i == 2)
                     {
                         
-                        var x =  BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().firstMaterials;
+                        var x =  forbidCubes[i].GetComponent<Tile>().firstMaterials;
                         x[0] = forbiddenMaterials[0];
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials = x;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._currentMaterial = BoardCreation
-                            .instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials;
-                        BoardCreation.instance.forbiddenCubes[2].GetComponent<Tile>()._canRockTouch = false;
+                        forbidCubes[i].GetComponent<Tile>().mrender.materials = x;
+                        forbidCubes[i].GetComponent<Tile>()._currentMaterial = forbidCubes[i].GetComponent<Tile>().mrender.materials;
+                        forbidCubes[2].GetComponent<Tile>()._canRockTouch = false;
                     }
                     
                 }
@@ -283,35 +280,32 @@ public class Tile : MonoBehaviour
                     if (i == 0)
                     {
                         
-                        var x =  BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().firstMaterials;
+                        var x =  forbidCubes[i].GetComponent<Tile>().firstMaterials;
                         x[0] = forbiddenMaterials[2];
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials = x;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._currentMaterial = BoardCreation
-                            .instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._canScissorTouch = false;
+                        forbidCubes[i].GetComponent<Tile>().mrender.materials = x;
+                        forbidCubes[i].GetComponent<Tile>()._currentMaterial = forbidCubes[i].GetComponent<Tile>().mrender.materials;
+                        forbidCubes[i].GetComponent<Tile>()._canScissorTouch = false;
                     }
 
                     else if (i == 1)
                     {
                         
-                        var x =  BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().firstMaterials;
+                        var x =  forbidCubes[i].GetComponent<Tile>().firstMaterials;
 
                         x[0] = forbiddenMaterials[0];
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials = x;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._currentMaterial = BoardCreation
-                            .instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials;
-                        BoardCreation.instance.forbiddenCubes[1].GetComponent<Tile>()._canRockTouch = false;
+                        forbidCubes[i].GetComponent<Tile>().mrender.materials = x;
+                        forbidCubes[i].GetComponent<Tile>()._currentMaterial = forbidCubes[i].GetComponent<Tile>().mrender.materials;
+                        forbidCubes[1].GetComponent<Tile>()._canRockTouch = false;
                     }
 
                     else if (i == 2)
                     {
                         
-                        var x =  BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().firstMaterials;
+                        var x =  forbidCubes[i].GetComponent<Tile>().firstMaterials;
                         x[0] = forbiddenMaterials[1];
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials = x;
-                        BoardCreation.instance.forbiddenCubes[i].GetComponent<Tile>()._currentMaterial = BoardCreation
-                            .instance.forbiddenCubes[i].GetComponent<Tile>().mrender.materials;
-                        BoardCreation.instance.forbiddenCubes[2].GetComponent<Tile>()._canPaperTouch = false;
+                        forbidCubes[i].GetComponent<Tile>().mrender.materials = x;
+                        forbidCubes[i].GetComponent<Tile>()._currentMaterial = forbidCubes[i].GetComponent<Tile>().mrender.materials;
+                        forbidCubes[2].GetComponent<Tile>()._canPaperTouch = false;
                     }
                     
                 }

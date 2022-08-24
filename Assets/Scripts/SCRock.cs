@@ -7,10 +7,11 @@ public class SCRock : MonoBehaviour
 
     public GameObject _rockTouchCube;
     public static SCRock instance;
+    private List<GameObject> _cubesNears;
     private void Awake()
     {
         instance = this;
-
+        _cubesNears = new List<GameObject>();
     }
     private void OnTriggerStay(Collider other)
     {
@@ -28,6 +29,11 @@ public class SCRock : MonoBehaviour
             _rockTouchCube.GetComponent<Tile>().isThereRock = false;
             _rockTouchCube.GetComponent<Tile>()._touchAnything = false;
         }
+    }
+
+    void KnowNeighbor()
+    {
+        _cubesNears = _rockTouchCube.GetComponent<Tile>().neighObjects;
     }
 
 }
