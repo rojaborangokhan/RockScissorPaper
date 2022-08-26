@@ -69,7 +69,7 @@ public class BoardCreation : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
-                if ((hit.transform.tag == "Cube") && (hit.transform.name == "0 0" || hit.transform.name == "1 0" || hit.transform.name == "2 0")&& !hit.transform.GetComponent<Tile>().isThereRock)
+                if ((hit.transform.tag == "Cube") && (hit.transform.name == "00" || hit.transform.name == "10" || hit.transform.name == "20")&& !hit.transform.GetComponent<Tile>().isThereRock)
                 {
                     Vector3 _scissorPos = new Vector3(hit.transform.position.x, 0.5f, hit.transform.position.z);
                     _instantiateScissor =  Instantiate(_scissor, _scissorPos, Quaternion.identity);
@@ -89,7 +89,7 @@ public class BoardCreation : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
-                if ((hit.transform.tag == "Cube") && (hit.transform.name == "0 0" || hit.transform.name == "1 0" || hit.transform.name == "2 0") && !hit.transform.GetComponent<Tile>().isThereScissor && !hit.transform.GetComponent<Tile>().isThereRock)
+                if ((hit.transform.tag == "Cube") && (hit.transform.name == "00" || hit.transform.name == "10" || hit.transform.name == "20") && !hit.transform.GetComponent<Tile>().isThereScissor && !hit.transform.GetComponent<Tile>().isThereRock)
                 {
                     Vector3 _paperPos = new Vector3(hit.transform.position.x, 0.5f, hit.transform.position.z);
                     _instantiatePaper = Instantiate(_paper, _paperPos, Quaternion.identity);
@@ -110,7 +110,7 @@ public class BoardCreation : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
-                if ((hit.transform.tag == "Cube" )&& (hit.transform.name == "0 0" || hit.transform.name == "1 0" || hit.transform.name == "2 0"))
+                if ((hit.transform.tag == "Cube" )&& (hit.transform.name == "00" || hit.transform.name == "10" || hit.transform.name == "20"))
                 {
                     Vector3 _rockPos = new Vector3(hit.transform.position.x, 0.5f, hit.transform.position.z);
                     instantiateRock = Instantiate(_rock,_rockPos, Quaternion.identity);
@@ -131,10 +131,24 @@ public class BoardCreation : MonoBehaviour
             {
                 spawnedTile = Instantiate(_cube, new Vector3(j,0, i), Quaternion.identity);
                 // spawnedTile oluşturup adlandırmasını yapıyoruz
-                spawnedTile.name = $"{j} {i}";
+                spawnedTile.name = $"{j}{i}";
                 // küplerin rengini atıyoruz
                 var isOffset = (i % 2 == 0 && j % 2 != 0) || (i % 2 != 0 && j % 2 == 0);
                 Tile.instance.InIt(isOffset);
+                if (j == 1)
+                {
+                    spawnedTile.GetComponent<Tile>().isItInMiddle = true;
+                }
+
+                if (j == 0)
+                {
+                    spawnedTile.GetComponent<Tile>().isItInLeft = true;
+                }
+
+                if (j == 2)
+                {
+                    spawnedTile.GetComponent<Tile>().isItInRight = true;
+                }
                 // ilk sırayı listeye ekliyoruz
                 if ((i == 0) && (j==1 || j == 0 || j ==2) )
                 {

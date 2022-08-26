@@ -65,26 +65,103 @@ public class ColliderInputReceiver : MonoBehaviour
                         // clicked objeyi taş-kağıt-makas üçlüsünden hangisine tıkladıysak ona eşitliyoruz.
                         _clickedObject = hit.transform.gameObject;
                         // taşın dokunduğu objeyi click cube adında bir objeye eşitliyoruz.
-                        GameObject _clickCube= SCRock.instance._rockTouchCube;
-                        int listCountRock = _clickCube.GetComponent<Tile>().neighObjects.Count;
-                        if (_clickCube.GetComponent<Tile>().isThereRock)
+                        GameObject _denemeCube = SCRock.instance._rockTouchCube;
+                        Tile _clickCube= SCRock.instance._rockTouchCube.GetComponent<Tile>();
+                        int listCountRock = _clickCube.neighObjects.Count;
+                        if (_clickCube.isThereRock)
                         {
                             for (int i = 0; i < listCountRock; i++)
                             {
-                                GameObject _neighOfClickCube = _clickCube.GetComponent<Tile>().neighObjects[i];
+                                GameObject _neighOfClickCube = _clickCube.neighObjects[i];
+                                Tile _neighOfClickCubeTileScript = _clickCube.neighObjects[i].GetComponent<Tile>();
                                 // tıklanan objenin komşularında kağıt ya da makas var mı ve taş objesinin dokunabileceği bir obje olup olmadığını kontrol ediyor
-                                if (!_neighOfClickCube.GetComponent<Tile>().isTherePaper 
-                                    && !_neighOfClickCube.GetComponent<Tile>().isThereScissor 
-                                    && _neighOfClickCube.GetComponent<Tile>()._canRockTouch)
+                                if (!_neighOfClickCubeTileScript.isTherePaper 
+                                    && !_neighOfClickCubeTileScript.isThereScissor 
+                                    && _neighOfClickCubeTileScript._canRockTouch)
                                 {
                                     // nearCubes listemize gidebileceğimiz komşuları ekliyoruz
                                     nearCubes.Add(_neighOfClickCube);
                                     
                                 }
-                                if ((i == 1 || i == 2) && (_neighOfClickCube.GetComponent<Tile>().isTherePaper || _neighOfClickCube.GetComponent<Tile>().isThereScissor)&& _neighOfClickCube.name != "0 0" && _neighOfClickCube.name != "1 0" && _neighOfClickCube.name != "2 0")
+
+                                if (_clickCube.isItInMiddle && _neighOfClickCubeTileScript.isItInMiddle && (_neighOfClickCubeTileScript.isTherePaper || _neighOfClickCubeTileScript.isThereScissor))
                                 {
-                                    nearCubes.Add(_neighOfClickCube.GetComponent<Tile>().neighObjects[i]);
+                                    int clickCubeInt = 0;
+                                    int neighCubeInt = 0;
+                                    int.TryParse(_clickCube.name, out clickCubeInt);
+                                    int.TryParse(_neighOfClickCube.name, out neighCubeInt);
+                                    if (clickCubeInt-neighCubeInt >0 && (!_neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>().isTherePaper && !_neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>().isThereScissor) && _neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>()._canRockTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[1]);
+                                    }
+                                    else if (clickCubeInt-neighCubeInt <0 && (!_neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>().isTherePaper && !_neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>().isThereScissor) && _neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>()._canRockTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[2]);
+                                    }
                                 }
+                                
+                                if (_clickCube.isItInRight && _neighOfClickCubeTileScript.isItInRight && (_neighOfClickCubeTileScript.isTherePaper || _neighOfClickCubeTileScript.isThereScissor))
+                                {
+                                    int clickCubeInt = 0;
+                                    int neighCubeInt = 0;
+                                    int.TryParse(_clickCube.name, out clickCubeInt);
+                                    int.TryParse(_neighOfClickCube.name, out neighCubeInt);
+                                    if (clickCubeInt-neighCubeInt >0 && !_neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>().isTherePaper && !_neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>().isThereScissor && _neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>()._canRockTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[1]);
+                                    }
+                                    else if (clickCubeInt-neighCubeInt <0 && !_neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>().isTherePaper && !_neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>().isThereScissor && _neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>()._canRockTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[2]);
+                                    }
+                                }
+                                if (_clickCube.isItInLeft && _neighOfClickCubeTileScript.isItInLeft && (_neighOfClickCubeTileScript.isTherePaper || _neighOfClickCubeTileScript.isThereScissor))
+                                {
+                                    int clickCubeInt = 0;
+                                    int neighCubeInt = 0;
+                                    int.TryParse(_clickCube.name, out clickCubeInt);
+                                    int.TryParse(_neighOfClickCube.name, out neighCubeInt);
+                                    if (clickCubeInt-neighCubeInt >0 && !_neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>().isTherePaper && !_neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>().isThereScissor && _neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>()._canRockTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[0]);
+                                    }
+                                    else if (clickCubeInt-neighCubeInt <0 && !_neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>().isTherePaper && !_neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>().isThereScissor && _neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>()._canRockTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[1]);
+                                    }
+                                }
+
+                                if (listCountRock>2 && _clickCube.isItInLeft && _neighOfClickCubeTileScript.isItInMiddle && (_neighOfClickCubeTileScript.isTherePaper || _neighOfClickCubeTileScript.isThereScissor))
+                                {
+                                    if (!_neighOfClickCubeTileScript.neighObjects[3].GetComponent<Tile>().isTherePaper && !_neighOfClickCubeTileScript.neighObjects[3].GetComponent<Tile>().isThereScissor && _neighOfClickCubeTileScript.neighObjects[3].GetComponent<Tile>()._canRockTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[3]);
+                                    }
+                                }
+                                if (listCountRock<=2 && _clickCube.isItInLeft && _neighOfClickCubeTileScript.isItInMiddle && (_neighOfClickCubeTileScript.isTherePaper || _neighOfClickCubeTileScript.isThereScissor))
+                                {
+                                    if (!_neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>().isTherePaper && !_neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>().isThereScissor && _neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>()._canRockTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[2]);
+                                    }
+                                }
+                                
+                                
+                                
+
+                                if (_clickCube.isItInRight && _neighOfClickCubeTileScript.isItInMiddle && (_neighOfClickCubeTileScript.isTherePaper || _neighOfClickCubeTileScript.isThereScissor))
+                                {
+                                    if (!_neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>().isTherePaper && !_neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>().isThereScissor && _neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>()._canRockTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[0]);
+                                    }
+                                }
+                                
+                                
+                                // if ((i == 1 || i == 2) && (_neighOfClickCube.GetComponent<Tile>().isTherePaper || _neighOfClickCube.GetComponent<Tile>().isThereScissor)&& _neighOfClickCube.name != "0 0" && _neighOfClickCube.name != "1 0" && _neighOfClickCube.name != "2 0")
+                                // {
+                                //     
+                                // }
                                 // EĞER NEİGHOFCLICKCUBE'UN İLK 2 ELEMENTİ ISTHEREPAPER YA DA ISTHEREROCK ILE DOLUYSA 3'LU ZIPLAMA YAPABİLİRLER.
                                 
                                 // else if (_neighOfClickCube.GetComponent<Tile>().isTherePaper)
@@ -111,32 +188,96 @@ public class ColliderInputReceiver : MonoBehaviour
                         ClickSpecifications(true,false,false, true);
                         
                         _clickedObject = hit.transform.gameObject;
-                        GameObject _clickCube = SCPaper.instance._paperTouchCube;
-                        int listCountPaper = _clickCube.GetComponent<Tile>().neighObjects.Count;
-                        if (_clickCube.GetComponent<Tile>().isTherePaper)
+                        Tile _clickCube = SCPaper.instance._paperTouchCube.GetComponent<Tile>();
+                        int listCountPaper = _clickCube.neighObjects.Count;
+                        if (_clickCube.isTherePaper)
                         {
                             for (int i = 0; i < listCountPaper; i++)
                             {
                                 GameObject _neighOfClickCube = _clickCube.GetComponent<Tile>().neighObjects[i];
-                                if (!_neighOfClickCube.GetComponent<Tile>().isThereRock &&
-                                    !_neighOfClickCube.GetComponent<Tile>().isThereScissor &&
-                                    _neighOfClickCube.GetComponent<Tile>()._canPaperTouch)
+                                Tile _neighOfClickCubeTileScript = _clickCube.GetComponent<Tile>().neighObjects[i]
+                                    .GetComponent<Tile>();
+                                if (!_neighOfClickCubeTileScript.isThereRock &&
+                                    !_neighOfClickCubeTileScript.isThereScissor &&
+                                    _neighOfClickCubeTileScript._canPaperTouch)
                                 {
                                     nearCubes.Add(_neighOfClickCube);
                                 }
-                                if ((i == 1 || i == 2) && (_neighOfClickCube.GetComponent<Tile>().isThereRock || _neighOfClickCube.GetComponent<Tile>().isThereScissor) && _neighOfClickCube.name != "0 0" && _neighOfClickCube.name != "1 0" && _neighOfClickCube.name != "2 0")
+                                if (_clickCube.isItInMiddle && _neighOfClickCubeTileScript.isItInMiddle && (_neighOfClickCubeTileScript.isThereRock || _neighOfClickCubeTileScript.isThereScissor))
                                 {
-                                    nearCubes.Add(_neighOfClickCube.GetComponent<Tile>().neighObjects[i]);
+                                    int clickCubeInt = 0;
+                                    int neighCubeInt = 0;
+                                    int.TryParse(_clickCube.name, out clickCubeInt);
+                                    int.TryParse(_neighOfClickCube.name, out neighCubeInt);
+                                    if (clickCubeInt-neighCubeInt >0 && !_neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>().isThereRock && !_neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>().isThereScissor && _neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>()._canPaperTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[1]);
+                                    }
+                                    else if (clickCubeInt-neighCubeInt <0 && !_neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>().isThereRock && !_neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>().isThereScissor && _neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>()._canPaperTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[2]);
+                                    }
+                                }
+
+                                if (_clickCube.isItInRight && _neighOfClickCubeTileScript.isItInRight && (_neighOfClickCubeTileScript.isThereRock || _neighOfClickCubeTileScript.isThereScissor))
+                                {
+                                    int clickCubeInt = 0;
+                                    int neighCubeInt = 0;
+                                    int.TryParse(_clickCube.name, out clickCubeInt);
+                                    int.TryParse(_neighOfClickCube.name, out neighCubeInt);
+                                    if (clickCubeInt-neighCubeInt >0 && !_neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>().isThereRock && !_neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>().isThereScissor && _neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>()._canPaperTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[1]);
+                                    }
+                                    else if (clickCubeInt-neighCubeInt <0 && !_neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>().isThereRock && !_neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>().isThereScissor && _neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>()._canPaperTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[2]);
+                                    }
+                                }
+                                if (_clickCube.isItInLeft && _neighOfClickCubeTileScript.isItInLeft && (_neighOfClickCubeTileScript.isThereRock || _neighOfClickCubeTileScript.isThereScissor))
+                                {
+                                    int clickCubeInt = 0;
+                                    int neighCubeInt = 0;
+                                    int.TryParse(_clickCube.name, out clickCubeInt);
+                                    int.TryParse(_neighOfClickCube.name, out neighCubeInt);
+                                    if (clickCubeInt-neighCubeInt >0 && !_neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>().isThereRock && !_neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>().isThereScissor && _neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>()._canPaperTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[0]);
+                                    }
+                                    else if (clickCubeInt-neighCubeInt <0 && !_neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>().isThereRock && !_neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>().isThereScissor && _neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>()._canPaperTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[1]);
+                                    }
+                                }
+                                
+                                if (listCountPaper>2 && _clickCube.isItInLeft && _neighOfClickCubeTileScript.isItInMiddle && (_neighOfClickCubeTileScript.isThereRock || _neighOfClickCubeTileScript.isThereScissor))
+                                {
+                                    if (!_neighOfClickCubeTileScript.neighObjects[3].GetComponent<Tile>().isThereRock && !_neighOfClickCubeTileScript.neighObjects[3].GetComponent<Tile>().isThereScissor && _neighOfClickCubeTileScript.neighObjects[3].GetComponent<Tile>()._canPaperTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[3]);
+                                    }
+                                }
+                                
+                                if (listCountPaper<=2 && _clickCube.isItInLeft && _neighOfClickCubeTileScript.isItInMiddle && (_neighOfClickCubeTileScript.isThereRock || _neighOfClickCubeTileScript.isThereScissor))
+                                {
+                                    if (!_neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>().isThereRock && !_neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>().isThereScissor && _neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>()._canPaperTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[2]);
+                                    }
+                                }
+                                
+                                if (_clickCube.isItInRight && _neighOfClickCubeTileScript.isItInMiddle && (_neighOfClickCubeTileScript.isThereRock || _neighOfClickCubeTileScript.isThereScissor))
+                                {
+                                    if (!_neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>().isThereRock && !_neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>().isThereScissor && _neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>()._canPaperTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[0]);
+                                    }
                                 }
                             }
-                            for (int i = 0; i < nearCubes.Count; i++)
-                            {
-                                if (nearCubes[i].GetComponent<Tile>().isTherePaper && nearCubes[i].GetComponent<Tile>().isThereScissor)
-                                {
-                                    nearCubes.Remove(nearCubes[i]);
-                                }
-                                nearCubes[i].GetComponent<Renderer>().material = _clickedMaterial;
-                            }
+                        }
+                        for (int i = 0; i < nearCubes.Count; i++)
+                        {
+                            nearCubes[i].GetComponent<Renderer>().material = _clickedMaterial;
                         }
                     }
                     
@@ -147,28 +288,96 @@ public class ColliderInputReceiver : MonoBehaviour
                         
                         ReturnAllCubesToOriginalMaterials();
                         _clickedObject = hit.transform.gameObject;
-                        GameObject _clickCube = SCScrissor.instance._scissorTouchCube;
-                        int listCountScissor = _clickCube.GetComponent<Tile>().neighObjects.Count;
-                        if (_clickCube.GetComponent<Tile>().isThereScissor)
+                        Tile _clickCube = SCScrissor.instance._scissorTouchCube.GetComponent<Tile>();
+                        
+                        int listCountScissor = _clickCube.neighObjects.Count;
+                        if (_clickCube.isThereScissor)
                         {
                             for (int i = 0; i < listCountScissor; i++)
                             {
                                 GameObject _neighOfClickCube = _clickCube.GetComponent<Tile>().neighObjects[i];
-                                if (!_neighOfClickCube.GetComponent<Tile>().isTherePaper 
-                                    && !_neighOfClickCube.GetComponent<Tile>().isThereRock
-                                    && _neighOfClickCube.GetComponent<Tile>()._canScissorTouch)
+                                Tile _neighOfClickCubeTileScript = _clickCube.GetComponent<Tile>().neighObjects[i]
+                                    .GetComponent<Tile>();
+                                if (!_neighOfClickCubeTileScript.isTherePaper 
+                                    && !_neighOfClickCubeTileScript.isThereRock
+                                    && _neighOfClickCubeTileScript._canScissorTouch)
                                 {
                                     nearCubes.Add(_neighOfClickCube);
                                 }
-
-                               
-                                if ((i == 1 || i == 2) && (_neighOfClickCube.GetComponent<Tile>().isTherePaper || _neighOfClickCube.GetComponent<Tile>().isThereRock) && _neighOfClickCube.name != "0 0" && _neighOfClickCube.name != "1 0" && _neighOfClickCube.name != "2 0")
-                                { 
-                                    nearCubes.Add(_neighOfClickCube.GetComponent<Tile>().neighObjects[i]);
+                                if (_clickCube.isItInMiddle && _neighOfClickCubeTileScript.isItInMiddle && (_neighOfClickCubeTileScript.isThereRock || _neighOfClickCubeTileScript.isTherePaper))
+                                {
+                                    int clickCubeInt = 0;
+                                    int neighCubeInt = 0;
+                                    int.TryParse(_clickCube.name, out clickCubeInt);
+                                    int.TryParse(_neighOfClickCube.name, out neighCubeInt);
+                                    if (clickCubeInt-neighCubeInt >0 && !_neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>().isThereRock && !_neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>().isTherePaper && _neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>()._canScissorTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[1]);
+                                    }
+                                    else if (clickCubeInt-neighCubeInt <0 && !_neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>().isThereRock && !_neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>().isTherePaper && _neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>()._canScissorTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[2]);
+                                    }
+                                }
+                                if (_clickCube.isItInRight && _neighOfClickCubeTileScript.isItInRight && (_neighOfClickCubeTileScript.isThereRock || _neighOfClickCubeTileScript.isTherePaper))
+                                {
+                                    int clickCubeInt = 0;
+                                    int neighCubeInt = 0;
+                                    int.TryParse(_clickCube.name, out clickCubeInt);
+                                    int.TryParse(_neighOfClickCube.name, out neighCubeInt);
+                                    if (clickCubeInt-neighCubeInt >0 && _neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>().isThereRock && !_neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>().isTherePaper && _neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>()._canScissorTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[1]);
+                                    }
+                                    else if (clickCubeInt-neighCubeInt <0 && !_neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>().isThereRock && !_neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>().isTherePaper && _neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>()._canScissorTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[2]);
+                                    }
+                                }
+                                if (_clickCube.isItInLeft && _neighOfClickCubeTileScript.isItInLeft && (_neighOfClickCubeTileScript.isThereRock || _neighOfClickCubeTileScript.isTherePaper))
+                                {
+                                    int clickCubeInt = 0;
+                                    int neighCubeInt = 0;
+                                    int.TryParse(_clickCube.name, out clickCubeInt);
+                                    int.TryParse(_neighOfClickCube.name, out neighCubeInt);
+                                    if (clickCubeInt-neighCubeInt >0 && !_neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>().isThereRock && !_neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>().isTherePaper && _neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>()._canScissorTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[0]);
+                                    }
+                                    else if (clickCubeInt-neighCubeInt <0 && !_neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>().isThereRock && !_neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>().isTherePaper && _neighOfClickCubeTileScript.neighObjects[1].GetComponent<Tile>()._canScissorTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[1]);
+                                    }
                                 }
                                 
+                                if ( listCountScissor>2 && _clickCube.isItInLeft && _neighOfClickCubeTileScript.isItInMiddle && (_neighOfClickCubeTileScript.isThereRock || _neighOfClickCubeTileScript.isTherePaper))
+                                {
+                                    Debug.Log(listCountScissor);
+                                    if (!_neighOfClickCubeTileScript.neighObjects[3].GetComponent<Tile>().isThereRock && !_neighOfClickCubeTileScript.neighObjects[3].GetComponent<Tile>().isTherePaper && _neighOfClickCubeTileScript.neighObjects[3].GetComponent<Tile>()._canScissorTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[3]);
+                                    }
+                                }
+                                
+                                if ( listCountScissor<=2 && _clickCube.isItInLeft && _neighOfClickCubeTileScript.isItInMiddle && (_neighOfClickCubeTileScript.isThereRock || _neighOfClickCubeTileScript.isTherePaper))
+                                {
+                                    Debug.Log(listCountScissor);
+                                    if (!_neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>().isThereRock && !_neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>().isTherePaper && _neighOfClickCubeTileScript.neighObjects[2].GetComponent<Tile>()._canScissorTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[2]);
+                                    }
+                                }
+                                
+                                if (_clickCube.isItInRight && _neighOfClickCubeTileScript.isItInMiddle && (_neighOfClickCubeTileScript.isThereRock || _neighOfClickCubeTileScript.isTherePaper))
+                                {
+                                    if (!_neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>().isThereRock && !_neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>().isTherePaper && _neighOfClickCubeTileScript.neighObjects[0].GetComponent<Tile>()._canScissorTouch)
+                                    {
+                                        nearCubes.Add(_neighOfClickCubeTileScript.neighObjects[0]);
+                                    }
+                                }
                                 
                             }
+                            
                             for (int i = 0; i < nearCubes.Count; i++)
                             {
                                 nearCubes[i].GetComponent<Renderer>().material = _clickedMaterial;
@@ -254,25 +463,10 @@ public class ColliderInputReceiver : MonoBehaviour
                 {
                     if (firstLine[j].GetComponent<Tile>().neighObjects[i] == BoardCreation.instance.destroyedCubes[j])
                     {
-                        Debug.Log(firstLine[j].GetComponent<Tile>().neighObjects[i].name);
                         firstLine[j].GetComponent<Tile>().neighObjects.Remove(firstLine[j].GetComponent<Tile>().neighObjects[i]);
                     }
                 }
-            
-                // for (int i = 0; i < firstLine[j].GetComponent<Tile>().neighObjects.Count; i++)
-                // {
-                //     if (firstLine[j].GetComponent<Tile>().neighObjects[i] == null)
-                //     {
-                //         Debug.Log("oldu");
-                //         firstLine[j].GetComponent<Tile>().neighObjects.Remove(firstLine[j].GetComponent<Tile>().neighObjects[i]);
-                //     }
-                // }
-                // ilk sırada olan her kübün içindeki scripte olan komşulara ulaşıp son indextekini kaldırıyoruz çünkü son indexte yer alan objeler 
-                // yok olacak olan sıradaki küpleri içeriyor
-                            
-                //firstLine[j].GetComponent<Tile>().neighObjects.RemoveAt(firstLine[j].GetComponent<Tile>().neighObjects.Count-1);
             }
-
             _canGoBack = false;
         }
 

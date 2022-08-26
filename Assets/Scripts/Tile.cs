@@ -26,7 +26,9 @@ public class Tile : MonoBehaviour
     public bool _canPaperTouch = true;
     public bool _canScissorTouch = true;
     public bool _touchAnything = false;
-    public GameObject _forwardObject, _backObject, _leftObject, _rightObject;
+    public bool isItInMiddle = false;
+    public bool isItInLeft = false;
+    public bool isItInRight = false;
     
     private void Awake()
     {
@@ -46,10 +48,7 @@ public class Tile : MonoBehaviour
             if (hitCollider.CompareTag("Cube") && !(hitCollider == this.gameObject))
             {
                 neighObjects.Add(hitCollider);
-                // if (hitCollider.name == "0 0" || hitCollider.name == "1 0" || hitCollider.name == "2 0")
-                // {
-                //     neighObjects.Remove(hitCollider);
-                // }
+               
             }
         }
         neighObjects = neighObjects.OrderBy(go=>go.name).ToList();

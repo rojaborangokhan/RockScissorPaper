@@ -8,6 +8,7 @@ TagManager:
   - Paper
   - Scissor
   - Cube
+  - EmptyArea
   layers:
   - Default
   - TransparentFX
