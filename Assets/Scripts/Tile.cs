@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
-using UnityEngine;
+using UnityEngine;  
 
 
 public class Tile : MonoBehaviour
@@ -63,7 +63,6 @@ public class Tile : MonoBehaviour
     }
     public void InIt(bool isOffset)
     {
-
         if (isOffset)
         {
             var x = firstMaterials;
@@ -78,7 +77,6 @@ public class Tile : MonoBehaviour
             mrender.materials = x;
             _currentMaterial = mrender.materials;
         }
-        
     }
 
     public void DefineForbiddenCubes()

@@ -97,7 +97,6 @@ public class BoardCreation : MonoBehaviour
                     _destroyPaper.SetActive(false);
                     _isPaperLocated = true;
                 }
-
             }
         }
     }
