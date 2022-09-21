@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class SCRock : MonoBehaviour
 {
-
+    public bool isEnemy = false;
+    public bool isFriend = false;
     public GameObject _rockTouchCube;
     public static SCRock instance;
     private List<GameObject> _cubesNears;
@@ -31,9 +32,9 @@ public class SCRock : MonoBehaviour
         }
     }
 
-    void KnowNeighbor()
+    public void FightScissor()
     {
-        _cubesNears = _rockTouchCube.GetComponent<Tile>().neighObjects;
+        
     }
 
 }

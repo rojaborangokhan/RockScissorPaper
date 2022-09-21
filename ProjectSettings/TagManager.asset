@@ -9,6 +9,9 @@ TagManager:
   - Scissor
   - Cube
   - EmptyArea
+  - EnemyPaper
+  - EnemyRock
+  - EnemyScissor
   layers:
   - Default
   - TransparentFX

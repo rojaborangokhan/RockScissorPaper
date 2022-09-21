@@ -381,12 +381,19 @@ MonoBehaviour:
   instantiateRock: {fileID: 0}
   _instantiatePaper: {fileID: 0}
   _instantiateScissor: {fileID: 0}
+  enemyPaper: {fileID: 716087497273450643, guid: c35b590320e221c47a247838dae4f023,
+    type: 3}
+  enemyScissor: {fileID: 3551459824508115688, guid: 7d7bf4b86939e3c459f0e2698fa70750,
+    type: 3}
+  enemyRock: {fileID: 2501654435717454112, guid: 15966564f69c52441a1a17459b9183d6,
+    type: 3}
   _rockClicked: {fileID: 0}
   _paperClicked: {fileID: 0}
   _scissorClicked: {fileID: 0}
   forbiddenCubes: []
   destroyedCubes: []
   _destroyNearObjects: []
+  forbiddenCubesPlayerTwo: []
 --- !u!1 &286351207
 GameObject:
   m_ObjectHideFlags: 0
@@ -932,13 +939,68 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 653855643}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.3430452, y: -14.11, z: 3.7241516}
-  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_LocalPosition: {x: 3.3430452, y: -19.7, z: 35.8}
+  m_LocalScale: {x: 50, y: 50, z: 50}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &687102877
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 687102878}
+  - component: {fileID: 687102879}
+  m_Layer: 0
+  m_Name: EnemyObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &687102878
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687102877}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &687102879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687102877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75399cfd8c02d6649afa4dceb0e15996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _clickedObject: {fileID: 0}
+  _clickedMaterial: {fileID: 0}
+  _cube: {fileID: 6581966283629881590, guid: 3381a2da53a8fb14bbcfa89149d2b842, type: 3}
+  _rock: {fileID: 2501654435717454112, guid: 15966564f69c52441a1a17459b9183d6, type: 3}
+  _paper: {fileID: 716087497273450643, guid: c35b590320e221c47a247838dae4f023, type: 3}
+  _scissor: {fileID: 3551459824508115688, guid: 7d7bf4b86939e3c459f0e2698fa70750,
+    type: 3}
+  _objectSpawned: 0
+  _clickNumber: 1
+  nearCubes: []
+  _resBut: {fileID: 0}
 --- !u!1 &695443835
 GameObject:
   m_ObjectHideFlags: 0
@@ -1813,6 +1875,52 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1912807428}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2069491828
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2069491830}
+  - component: {fileID: 2069491829}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2069491829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069491828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20abf15d2d1f06741a0e31adb8613514, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerOneTurn: 1
+  playerTwoTurn: 0
+--- !u!4 &2069491830
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069491828}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.000000029802322, y: 0, z: -0.000000059604645}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2108719461 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7558302209019415820, guid: e9504a9ffe89d8b4d9ed873a076065dc,

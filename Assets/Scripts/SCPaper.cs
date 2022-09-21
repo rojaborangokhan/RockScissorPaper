@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class SCPaper : MonoBehaviour
 {
-
+    public bool isEnemy = false;
+    public bool isFriend = false;
     public static SCPaper instance;
     public GameObject _paperTouchCube;
     private void Awake()
